@@ -33,7 +33,7 @@ body {
 
 /* 单独设置result.html中的window表格 */
 .window_result {
-    width: 50%;
+    width: 85%;;
     margin-top: 20px;  /* 在表格上方添加间距 */
     border-collapse: collapse;  /* 确保表格没有空隙 */
     margin: 0 auto;  /* 使表格水平居中 */
