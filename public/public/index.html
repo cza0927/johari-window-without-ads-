@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8"> <!-- 设置字符集为UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 设置视口，确保页面响应式布局 -->
+    <title>Johari Window - 我的了解</title> <!-- 设置页面标题 -->
+    <link rel="stylesheet" href="johari.css">
+
+    <script>
+        const socket = io();  // 初始化Socket.io连接（在此文件中未使用）
+
+        function submitForm() {
+            const name = document.getElementById('name').value;  // 获取用户输入的姓名
+            const userwords = Array.from(document.querySelectorAll('button.selected')).map(button => button.textContent);  // 获取用户选择的词汇
+
+            if (userwords.length < 5 || userwords.length > 6) {  // 判断用户选择的词汇数量是否符合要求
+                alert('请选择5到6个词汇！');  // 如果数量不符合要求，提示用户
+                return;
+            }
+            if (!name) {
+                alert('请输入姓名！');  // 如果没输入姓名，提示用户
+                return;
+            }
+
+            // 构建URL，将数据传递到 result.html 页面
+            const url = new URL('result.html', window.location.href);
+            url.searchParams.set('name', name);  // 将姓名参数添加到URL中
+            url.searchParams.set('userwords', userwords.join(','));  // 将用户选择的词汇添加到URL中
+
+            // 跳转到结果页面
+            window.location.href = url;
+        }
+
+        function toggleSelection(button) {
+            button.classList.toggle('selected');  // 切换按钮的选中状态
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Johari Window - 我的了解</h1> <!-- 页面标题 -->
+        <p>请输入您的姓名：<input type="text" id="name" required></p> <!-- 输入框用于用户输入姓名 -->
+
+        <div id="words-container">
+            <div class="row">
+                <button type="button" onclick="toggleSelection(this)">observant/有洞察力的</button>
+                <button type="button" onclick="toggleSelection(this)">accepting/接受能力强的</button>
+                <button type="button" onclick="toggleSelection(this)">adaptable/适应能力强的</button>
+                <button type="button" onclick="toggleSelection(this)">responsive/反应灵敏的</button>
+                <button type="button" onclick="toggleSelection(this)">searching/敏锐的</button>
+            </div>
+            <div class="row">
+                <button type="button" onclick="toggleSelection(this)">calm/冷静的</button>
+                <button type="button" onclick="toggleSelection(this)">caring/关心他人的，贴心的</button>
+                <button type="button" onclick="toggleSelection(this)">cheerful/乐观的</button>
+                <button type="button" onclick="toggleSelection(this)">warm/暖心的</button>
+                <button type="button" onclick="toggleSelection(this)">complex/个性复杂的</button>
+            </div>
+            <div class="row">
+                <button type="button" onclick="toggleSelection(this)">confident/自信的</button>
+                <button type="button" onclick="toggleSelection(this)">dependable/值得依赖的</button>
+                <button type="button" onclick="toggleSelection(this)">trustworthy/值得信赖的</button>
+                <button type="button" onclick="toggleSelection(this)">dignified/自尊的</button>
+                <button type="button" onclick="toggleSelection(this)">energetic/充满活力的</button>
+            </div>
+            <div class="row">
+                <button type="button" onclick="toggleSelection(this)">friendly/友善的</button>
+                <button type="button" onclick="toggleSelection(this)">giving/慷慨的，乐于奉献的</button>
+                <button type="button" onclick="toggleSelection(this)">happy/快乐的</button>
+                <button type="button" onclick="toggleSelection(this)">helpful/乐于助人的</button>
+                <button type="button" onclick="toggleSelection(this)">idealistic/理想主义的</button>
+            </div>
+            <div class="row">
+                <button type="button" onclick="toggleSelection(this)">independent/独立的</button>
+                <button type="button" onclick="toggleSelection(this)">tense/紧张的（侧重紧绷的状态）</button>
+                <button type="button" onclick="toggleSelection(this)">nervous/焦虑的、神经质的</button>
+                <button type="button" onclick="toggleSelection(this)">extroverted/外向的</button>
+                <button type="button" onclick="toggleSelection(this)">introverted/内向的</button>
+                
+            </div>
+            <div class="row">
+                <button type="button" onclick="toggleSelection(this)">knowledgeable/博学的</button>
+                <button type="button" onclick="toggleSelection(this)">logical/逻辑清晰的</button>
+                <button type="button" onclick="toggleSelection(this)">loving/慈爱的</button>
+                <button type="button" onclick="toggleSelection(this)">mature/成熟的</button>
+                <button type="button" onclick="toggleSelection(this)">modest/谦虚的</button>
+            </div>
+            <div class="row">
+                <button type="button" onclick="toggleSelection(this)">able/能干的</button>
+                <button type="button" onclick="toggleSelection(this)">organised/有条理的</button>
+                <button type="button" onclick="toggleSelection(this)">patient/耐心的</button>
+                <button type="button" onclick="toggleSelection(this)">powerful/强大的、有权势的</button>
+                <button type="button" onclick="toggleSelection(this)">kind/善良的</button>
+            </div>
+            <div class="row">
+                <button type="button" onclick="toggleSelection(this)">proud/自豪的、骄傲的</button>
+                <button type="button" onclick="toggleSelection(this)">quiet/安静的</button>
+                <button type="button" onclick="toggleSelection(this)">reflective/深思熟虑的</button>
+                <button type="button" onclick="toggleSelection(this)">relaxed/放松的</button>
+                <button type="button" onclick="toggleSelection(this)">religious/宗教性的</button>
+            </div>
+            <div class="row">
+                
+                <button type="button" onclick="toggleSelection(this)">bold/鲁莽的</button>
+                <button type="button" onclick="toggleSelection(this)">brave/勇敢的</button>
+                <button type="button" onclick="toggleSelection(this)">self-assertive/果敢的，独断专行的</button>
+                <button type="button" onclick="toggleSelection(this)">self-conscious/在意别人看法的，自我意识过剩的</button>
+                <button type="button" onclick="toggleSelection(this)">sensible/通情达理的</button>
+            </div>
+            <div class="row">
+                <button type="button" onclick="toggleSelection(this)">sentimental/多愁善感的</button>
+                <button type="button" onclick="toggleSelection(this)">shy/害羞的</button>
+                <button type="button" onclick="toggleSelection(this)">silly/傻乎乎的</button>
+                <button type="button" onclick="toggleSelection(this)">spontaneous/自然的</button>
+                <button type="button" onclick="toggleSelection(this)">sympathetic/有同情心的</button>
+            </div>
+            <div class="row">
+                
+                <button type="button" onclick="toggleSelection(this)">ingenious/机智的（侧重灵感）</button>
+                <button type="button" onclick="toggleSelection(this)">intelligent/高智商的（侧重理解思考能力）</button>
+                <button type="button" onclick="toggleSelection(this)">clever/聪明的（侧重天资）</button>
+                <button type="button" onclick="toggleSelection(this)">wise/有智慧的(侧重哲学)</button>
+                <button type="button" onclick="toggleSelection(this)">witty/机智的(侧重小聪明)</button>
+            </div>
+        </div>
+
+        <button onclick="submitForm()">提交</button> <!-- 提交按钮 -->
+    </div>
+</body>
+</html>

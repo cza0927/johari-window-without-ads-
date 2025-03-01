@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8"> <!-- 设置字符集为UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 设置视口，确保页面响应式布局 -->
+    <title>Johari Window 结果</title> <!-- 设置页面标题 -->
+    <link rel="stylesheet" href="johari.css">
+
+    <script>
+        // 获取 URL 查询参数
+        function getQueryParams() {
+            const urlParams = new URLSearchParams(window.location.search);  // 获取URL查询参数
+            const userwords = urlParams.get('userwords');  // 获取用户选择的词汇
+            const name = urlParams.get('name');  // 获取用户的姓名
+            const otherwords = urlParams.get('otherwords');  // 获取其他人选择的词汇
+
+            if (userwords && name) {
+                document.getElementById('name').textContent = name;  // 显示用户姓名
+                const userwordList = userwords.split(',').filter(Boolean);  // 将用户选择的词汇分割为列表
+                let otherwordList = [];
+                if (otherwords) {
+                    otherwordList = otherwords.split(',').filter(Boolean);  // 将其他人选择的词汇分割为列表（如果存在）
+                }
+                updateJohariWindow(userwordList, otherwordList);  // 更新Johari Window
+                
+                document.getElementById('name').textContent = name; // 将姓名参数添加到URL中
+                // 将 userwords 数组中的元素用逗号分隔并编码
+                const userwordsStr = encodeURIComponent(userwordList);
+                const otherwordsStr = encodeURIComponent(otherwordList);
+            
+                // 动态设置跳转链接
+                const submitOtherLink = document.getElementById('submitOtherLink');
+                submitOtherLink.href = `submit_other.html?name=${encodeURIComponent(name)}&userwords=${userwordsStr}&otherwords=${otherwordsStr}`;  // 设置跳转链接
+            }            
+        }
+        
+        // 显示 Johari Window
+        function updateJohariWindow(userwordList, otherwordsList) {
+            const allwords = [
+                "able", "accepting", "adaptable", "bold", "brave", "calm", "caring", "cheerful", "clever", "complex",
+                "confident", "dependable", "dignified", "energetic", "extroverted", "friendly", "giving", "happy", "helpful", "idealistic",
+                "independent", "ingenious", "intelligent", "introverted", "kind", "knowledgeable", "logical", "loving", "mature", "modest",
+                "nervous", "observant", "organised", "patient", "powerful", "proud", "quiet", "reflective", "relaxed", "religious",
+                "responsive", "searching", "self-assertive", "self-conscious", "sensible", "sentimental", "shy", "silly", "spontaneous", "sympathetic",
+                "tense", "trustworthy", "warm", "wise", "witty"
+            ];
+        
+            // 用户和其他人分别选择的词汇
+            const knownToSelf = userwordList;  // 用户自己选择的词汇（直接使用数组，不用转换）
+            const knownToOthers = otherwordsList; // 其他人选择的词汇（暂时留空）
+            //const notKnownToSelf = allwords.filter(word => !knownToSelf.includes(word)); // 筛选不在用户选择中的词汇
+            //const notKnownToOthers = allwords.filter(word => !knownToOthers.includes(word)); // 筛选不在其他人选择中的词汇（暂时为空）
+        
+            // 计算交集、差集
+            const both = knownToSelf.filter(word => knownToOthers.includes(word));  // 重叠部分：此示例假定所有选择为用户自己已知
+            const selfOnly = knownToSelf.filter(word => !knownToOthers.includes(word));  // 仅用户自己选择的部分
+            const otherOnly = knownToOthers.filter(word => !knownToSelf.includes(word));  // 仅他人选择的部分
+            const totallyunknown = allwords.filter(word => !knownToSelf.includes(word) && !knownToOthers.includes(word)); // 未选择的部分
+        
+            // 更新界面显示
+            document.getElementById("arena").innerHTML = both.join(", ");
+            document.getElementById("facade").innerHTML = selfOnly.join(", ");
+            document.getElementById("blind").innerHTML = otherOnly.join(", ");
+            document.getElementById("unknown").innerHTML = totallyunknown.join(", ");
+        }
+        window.onload = getQueryParams;
+        
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Johari Window 结果</h1> <!-- 页面标题 -->
+        <p>您好，<span id="name"></span>！以下是您的 Johari Window：</p> <!-- 显示用户的姓名 -->
+
+        <!-- 2x2 Johari Window 表格 -->
+        <table class="window">
+            <tr>
+                <td></td>
+                <td class="sect">Known<br>to<br>Self</td>
+                <td class="sect">Not<br>Known<br>to<br>Self</td>
+            </tr>
+            <tr>
+                <td class="sect">Known to Others</td>
+                <td class="arena" id="arena"><h2>Arena</h2></td>
+                <td class="blind" id="blind"><h2>Blind Spot</h2></td>
+            </tr>
+            <tr>
+                <td class="sect">Not Known to Others</td>
+                <td class="facade" id="facade"><h2>Façade</h2></td>
+                <td class="unknown" id="unknown"><h2>Unknown</h2></td>
+            </tr>
+        </table>
+
+        <!-- 提供跳转链接 -->
+        <p>其他人可以通过以下链接填写他们对您的了解：</p>
+        <p><a id="submitOtherLink" href="#">点击这里填写其他人对您的了解</a></p>
+
+    </div>
+        
+
+</body>
+</html>
