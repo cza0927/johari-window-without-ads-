@@ -1,7 +1,7 @@
 /* 通用样式 */
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f9f9f9;
+    background-color: #443300;
     margin: 0;
     padding: 0;
     display: flex;
@@ -11,13 +11,83 @@ body {
 }
 
 .container {
-    background-color: #ffffff;
+    background-color: #FFE79D;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    width: 80%;
+    width: 70%;
     max-width: 1200px;
     text-align: center;
+}
+
+/* 设置表格宽度为容器的50% */
+.window {
+    width: 60%;
+    margin-top: 20px;  /* 在表格上方添加间距 */
+    margin-bottom: 20px;  /* 在表格上方添加间距 */
+    padding-bottom: 20px; /* 在表格下方添加 20px 的内边距 */
+    border-collapse: collapse;  /* 确保表格没有空隙 */
+    margin: 0 auto;  /* 使表格水平居中 */
+    table-layout: fixed;  /* 使用固定布局，这样列宽就能根据设置的比例来分配 */
+}
+
+/* 单独设置result.html中的window表格 */
+.window_result {
+    width: 50%;
+    margin-top: 20px;  /* 在表格上方添加间距 */
+    border-collapse: collapse;  /* 确保表格没有空隙 */
+    margin: 0 auto;  /* 使表格水平居中 */
+    table-layout: fixed;  /* 使用固定布局，这样列宽就能根据设置的比例来分配 */
+}
+/* 调整列宽，使得总宽度加起来为 100% */
+.window_result td:nth-child(1) {
+    width: 21%; /* 将第三列的宽度设置为 30% */
+}
+.window_result td:nth-child(2) {
+    width: 30%; /* 调整其他列宽度，以保证总宽度不超过 100% */
+}
+.window_result td:nth-child(3) {
+    width: 49%; /* 将第三列的宽度设置为 30% */
+}
+/* 加粗表格的第一行 */
+.window_result tr:first-child td {
+    font-weight: bold; /* 加粗第一行的字体 */
+}
+
+/* 加粗表格的第一列 */
+.window_result td:first-child {
+    font-weight: bold; /* 加粗第一列的字体 */
+}
+
+/* 单词按钮样式 */
+button {
+    background-color: #DDBB00;
+    border: 2px solid #DDBB00;
+    color: #000000;
+    font-size: 0.75rem;
+    padding: 0;  /* 去除按钮内边距 */
+    margin: 0;  /* 去除按钮外边距 */
+    
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+    flex: 1 1 calc(20% - 10px); /* 每行 5 个词，计算宽度 */
+    text-align: center;
+    max-width: 170px; /* 限制按钮的最大宽度 */
+    width: 100%; /* 使按钮充满单元格的宽度 */
+    height: 100%; /* 使按钮充满单元格的高度 */
+    box-sizing: border-box; /* 确保padding和border不影响按钮的总尺寸 */
+    
+}
+
+/*每个window的单元*/
+td {
+    padding: 0;  /* 取消内边距 */
+    text-align: center;
+    border: 1.75px solid black; /* 添加黑色边线 */
+    justify-content: center;  /* 将按钮居中 */
+    width: 100%;  /* 确保单元格宽度适应 */
+    height: 100%; /* 确保单元格高度适应 */
+    box-sizing: border-box; /* 确保padding和border不影响单元格尺寸 */
 }
 
 h1 {
@@ -32,46 +102,30 @@ p {
     margin-bottom: 20px;
 }
 
-/* 单词按钮样式 */
-button {
-    background-color: #f5a623;
-    border: 2px solid #f5a623;
-    color: #fff;
-    font-size: 1rem;
-    padding: 12px 20px;
-    margin: 5px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s, border-color 0.3s;
-    width: 140px;
-    height: 50px;
-    flex-grow: 1;
-    text-align: center;
-}
-
-button.selected {
-    background-color: #ff6a00;
-    border-color: #ff6a00;
-}
-
-button:hover {
-    background-color: #ff6a00;
-    border-color: #ff6a00;
-}
-
-button:active {
-    background-color: #ff4500;
-    border-color: #ff4500;
-}
-
 /* 每一行的样式 */
 .row {
     margin-bottom: 20px;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     gap: 10px;
     flex-wrap: wrap;
-    max-width: 100%;
+}
+
+
+/* 按钮选中状态 */
+button.selected {
+    background-color: #ffffff;
+    border-color: #ffffff;
+}
+
+button:hover {
+    background-color: #ffffcc;
+    border-color: #ffffcc;
+}
+
+button:active {
+    background-color: #ffff99;
+    border-color: #ffff99;
 }
 
 /* 表单按钮 */
@@ -107,6 +161,14 @@ input[type="text"] {
 }
 
 /* 响应式设计 */
+@media (max-width: 1024px) {
+    button {
+        font-size: 0.9rem;
+        padding: 10px;
+        flex: 1 1 calc(20% - 8px); /* 调整为适应小屏幕 */
+    }
+}
+
 @media (max-width: 768px) {
     .container {
         padding: 15px;
@@ -114,12 +176,21 @@ input[type="text"] {
     }
 
     button {
-        font-size: 0.9rem;
-        padding: 8px 16px;
+        font-size: 0.8rem;
+        padding: 8px;
+        flex: 1 1 calc(20% - 6px); /* 进一步减小按钮间隙 */
     }
 
     input[type="text"] {
         width: 100%;
         max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    button {
+        font-size: 0.7rem;
+        padding: 6px;
+        flex: 1 1 calc(20% - 4px); /* 适应更小的屏幕 */
     }
 }
