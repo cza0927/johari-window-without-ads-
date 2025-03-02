@@ -22,7 +22,7 @@ body {
 
 /* 设置表格宽度为容器的50% */
 .window {
-    width: 85%;
+    width: 95%;
     margin-top: 20px;  /* 在表格上方添加间距 */
     margin-bottom: 20px;  /* 在表格上方添加间距 */
     padding-bottom: 20px; /* 在表格下方添加 20px 的内边距 */
