@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Johari Window - 选择最能描述自己的5-6个词汇</title>
+    <title>乔韩窗口测试-Johari Window </title>
     <link rel="stylesheet" href="johari.css">
 
     <script>
@@ -53,7 +53,7 @@
             </tr>
             <tr>
                 <td><button type="button" onclick="toggleSelection(this)">calm/冷静的</button></td>
-                <td><button type="button" onclick="toggleSelection(this)">caring/关心他人的，贴心的</button></td>
+                <td><button type="button" onclick="toggleSelection(this)">caring/贴心的</button></td>
                 <td><button type="button" onclick="toggleSelection(this)">cheerful/乐观的</button></td>
                 <td><button type="button" onclick="toggleSelection(this)">warm/暖心的</button></td>
                 <td><button type="button" onclick="toggleSelection(this)">complex/个性复杂的</button></td>
@@ -67,7 +67,7 @@
             </tr>
             <tr>
                 <td><button type="button" onclick="toggleSelection(this)">friendly/友善的</button></td>
-                <td><button type="button" onclick="toggleSelection(this)">giving/慷慨的，乐于奉献的</button></td>
+                <td><button type="button" onclick="toggleSelection(this)">giving/慷慨的</button></td>
                 <td><button type="button" onclick="toggleSelection(this)">happy/快乐的</button></td>
                 <td><button type="button" onclick="toggleSelection(this)">helpful/乐于助人的</button></td>
                 <td><button type="button" onclick="toggleSelection(this)">idealistic/理想主义的</button></td>
@@ -90,7 +90,7 @@
                 <td><button type="button" onclick="toggleSelection(this)">able/能干的</button></td>
                 <td><button type="button" onclick="toggleSelection(this)">organised/有条理的</button></td>
                 <td><button type="button" onclick="toggleSelection(this)">patient/耐心的</button></td>
-                <td><button type="button" onclick="toggleSelection(this)">powerful/强大的、有权势的</button></td>
+                <td><button type="button" onclick="toggleSelection(this)">powerful/强大的</button></td>
                 <td><button type="button" onclick="toggleSelection(this)">kind/善良的</button></td>
             </tr>
             <tr>
@@ -103,8 +103,8 @@
             <tr>
                 <td><button type="button" onclick="toggleSelection(this)">bold/鲁莽的</button></td>
                 <td><button type="button" onclick="toggleSelection(this)">brave/勇敢的</button></td>
-                <td><button type="button" onclick="toggleSelection(this)">self-assertive/果敢的，独断专行的</button></td>
-                <td><button type="button" onclick="toggleSelection(this)">self-conscious/在意别人看法的，自我意识过剩的</button></td>
+                <td><button type="button" onclick="toggleSelection(this)">self-assertive/果敢的，独断的</button></td>
+                <td><button type="button" onclick="toggleSelection(this)">self-conscious/在意别人看法的</button></td>
                 <td><button type="button" onclick="toggleSelection(this)">sensible/通情达理的</button></td>
             </tr>
             <tr>
@@ -124,7 +124,9 @@
         </table>
         <style>
             td > button  {
-               box-sizing: border-box;
+                height: 100%;
+                width: 100%;
+                box-sizing: border-box;
             }
         </style>
         <style>
@@ -139,7 +141,9 @@
 
         <br><br> <!-- 添加 2 行空白 -->
 
-        <button onclick="submitForm()">提交</button>
+        <div class="button-container">
+            <button onclick="submitForm()">提交</button>
+        </div>
     </div>
 </body>
 </html>

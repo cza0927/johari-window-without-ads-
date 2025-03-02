@@ -28,19 +28,17 @@
                 return;
             }
 
-            // 从 URL 获取之前的 otherwords 参数，并将其转换为数组
-            const urlParams = new URLSearchParams(window.location.search);
-            const existingOtherWords = urlParams.get('otherwords');
-            const otherwordsArray = existingOtherWords ? existingOtherWords.split(',') : [];
-        
+            // 从 localStorage 获取之前的 otherwords 参数，如果没有，则设置为空数组
+            const existingOtherWords = JSON.parse(localStorage.getItem('otherwords')) || [];
             // 合并之前的 otherwords 和当前选中的词汇，去重
-            const mergedWords = [...new Set([...otherwordsArray, ...selectedWords])];
+            const mergedWords = [...new Set([...existingOtherWords, ...selectedWords])]
+            // 将合并后的 otherwords 存储回 localStorage
+            localStorage.setItem('otherwords', JSON.stringify(mergedWords));
         
             // 构建URL，将数据传递到 result.html 页面
             const url = new URL('result.html', window.location.href);
             url.searchParams.set('name', name2);  // 将姓名添加到URL中
             url.searchParams.set('userwords', userwords);  // 使用全局变量 userwords
-            url.searchParams.set('otherwords', mergedWords.join(','));  // 将合并后的词汇传递到URL中
         
             // 跳转到结果页面
             window.location.href = url;
@@ -59,8 +57,9 @@
 <body>
     <div class="container">
         <h1>提交对 <span id="name"></span> 的了解</h1>
-        <p>请选择五到六个您认为描述 他/她 <span id="name2"></span> 的词汇：</p>
-
+        <p>如果您是该用户，可将此页面转发给他人来获取他人对您的评价：</p>
+        <p>如果您不是该用户，可选择五到六个您认为描述 他/她 <span id="name2"></span> 的词汇：</p>
+        
         <!-- 使用表格布局按钮 -->
         <table class="window">
             <tr>
@@ -72,7 +71,7 @@
             </tr>
             <tr>
                 <td><button type="button" onclick="toggleSelection(this)">calm/冷静的</button></td>
-                <td><button type="button" onclick="toggleSelection(this)">caring/关心他人的，贴心的</button></td>
+                <td><button type="button" onclick="toggleSelection(this)">caring/贴心的</button></td>
                 <td><button type="button" onclick="toggleSelection(this)">cheerful/乐观的</button></td>
                 <td><button type="button" onclick="toggleSelection(this)">warm/暖心的</button></td>
                 <td><button type="button" onclick="toggleSelection(this)">complex/个性复杂的</button></td>
@@ -86,7 +85,7 @@
             </tr>
             <tr>
                 <td><button type="button" onclick="toggleSelection(this)">friendly/友善的</button></td>
-                <td><button type="button" onclick="toggleSelection(this)">giving/慷慨的，乐于奉献的</button></td>
+                <td><button type="button" onclick="toggleSelection(this)">giving/慷慨的</button></td>
                 <td><button type="button" onclick="toggleSelection(this)">happy/快乐的</button></td>
                 <td><button type="button" onclick="toggleSelection(this)">helpful/乐于助人的</button></td>
                 <td><button type="button" onclick="toggleSelection(this)">idealistic/理想主义的</button></td>
@@ -109,7 +108,7 @@
                 <td><button type="button" onclick="toggleSelection(this)">able/能干的</button></td>
                 <td><button type="button" onclick="toggleSelection(this)">organised/有条理的</button></td>
                 <td><button type="button" onclick="toggleSelection(this)">patient/耐心的</button></td>
-                <td><button type="button" onclick="toggleSelection(this)">powerful/强大的、有权势的</button></td>
+                <td><button type="button" onclick="toggleSelection(this)">powerful/强大的</button></td>
                 <td><button type="button" onclick="toggleSelection(this)">kind/善良的</button></td>
             </tr>
             <tr>
@@ -122,8 +121,8 @@
             <tr>
                 <td><button type="button" onclick="toggleSelection(this)">bold/鲁莽的</button></td>
                 <td><button type="button" onclick="toggleSelection(this)">brave/勇敢的</button></td>
-                <td><button type="button" onclick="toggleSelection(this)">self-assertive/果敢的，独断专行的</button></td>
-                <td><button type="button" onclick="toggleSelection(this)">self-conscious/在意别人看法的，自我意识过剩的</button></td>
+                <td><button type="button" onclick="toggleSelection(this)">self-assertive/果敢的，独断的</button></td>
+                <td><button type="button" onclick="toggleSelection(this)">self-conscious/在意别人看法的</button></td>
                 <td><button type="button" onclick="toggleSelection(this)">sensible/通情达理的</button></td>
             </tr>
             <tr>

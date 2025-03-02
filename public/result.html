@@ -12,26 +12,24 @@
             const urlParams = new URLSearchParams(window.location.search);  // 获取URL查询参数
             const userwords = urlParams.get('userwords');  // 获取用户选择的词汇
             const name = urlParams.get('name');  // 获取用户的姓名
-            const otherwords = urlParams.get('otherwords');  // 获取其他人选择的词汇
+            //const otherwords = urlParams.get('otherwords');  // 获取其他人选择的词汇from url
+            //const otherwords = JSON.parse(localStorage.getItem('otherwords')) || []; // Retrieve otherwords from localStorage
+
 
             if (userwords && name) {
                 // 只在这里更新一次 #name 的内容，避免重复更新
                 document.getElementById('name').textContent = name;  // 显示用户姓名
                 
                 const userwordList = userwords.split(',').filter(Boolean);  // 将用户选择的词汇分割为列表
-                let otherwordList = [];
-                if (otherwords) {
-                    otherwordList = otherwords.split(',').filter(Boolean);  // 将其他人选择的词汇分割为列表（如果存在）
-                }
+                let otherwordList = JSON.parse(localStorage.getItem('otherwords')) || [];  // 从localStorage获取otherwords，如果没有则默认为空数组
                 updateJohariWindow(userwordList, otherwordList);  // 更新Johari Window
 
-                // 将 userwords 数组中的元素用逗号分隔并编码
                 const userwordsStr = encodeURIComponent(userwordList);
-                const otherwordsStr = encodeURIComponent(otherwordList);
+                //const otherwordsStr = encodeURIComponent(otherwordList);
             
                 // 动态设置跳转链接
                 const submitOtherLink = document.getElementById('submitOtherLink');
-                submitOtherLink.href = `submit_other.html?name=${encodeURIComponent(name)}&userwords=${userwordsStr}&otherwords=${otherwordsStr}`;  // 设置跳转链接
+                submitOtherLink.href = `submit_other.html?name=${encodeURIComponent(name)}&userwords=${userwordsStr}`;  // 设置跳转链接
 
                 const CreateNewLink = document.getElementById('CreateNewLink');
                 CreateNewLink.href = `index.html`;
