@@ -3,63 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>乔韩窗口测试提交-Johari Window </title>
+    <title>Johari Window - 选择最能描述自己的5-6个词汇</title>
     <link rel="stylesheet" href="johari.css">
-    <script>
-        let userwords = ""; // 定义一个全局变量来存储 userwords
 
-        // 获取 URL 查询参数
-        function getQueryParams() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const name = urlParams.get('name');
-            userwords = urlParams.get('userwords'); // 将 userwords 存储到全局变量
-            //otherwords = urlParams.get('otherwords'); // 将 otherwords 存储到全局变量
-            if (name) {
-                document.getElementById('name').textContent = name;
-            }
-        }
+    <script>
+        const socket = io();  // 初始化Socket.io连接（在此文件中未使用）
 
         function submitForm() {
-            const name2 = document.getElementById('name').textContent;  // 获取姓名
-            const selectedWords = Array.from(document.querySelectorAll('button.selected')).map(button => button.textContent); // 获取当前选中的词汇
-            // 如果选择的词汇数量不在 5 到 6 之间，弹出提示并返回
-            if (selectedWords.length < 5 || selectedWords.length > 6) {
-                alert('请选择5到6个词汇！');
+            const name = document.getElementById('name').value;  // 获取用户输入的姓名
+            const userwords = Array.from(document.querySelectorAll('button.selected')).map(button => button.textContent);  // 获取用户选择的词汇
+
+            if (userwords.length < 5 || userwords.length > 6) {  // 判断用户选择的词汇数量是否符合要求
+                alert('请选择5到6个词汇！');  // 如果数量不符合要求，提示用户
+                return;
+            }
+            if (!name) {
+                alert('请输入姓名！');  // 如果没输入姓名，提示用户
                 return;
             }
 
-            // 从 localStorage 获取之前的 otherwords 参数，如果没有，则设置为空数组
-            const existingOtherWords = JSON.parse(localStorage.getItem(name2 + 'otherwords')) || [];
-            // 合并之前的 otherwords 和当前选中的词汇，去重
-            const mergedWords = [...new Set([...existingOtherWords, ...selectedWords])]
-            // 将合并后的 otherwords 存储回 localStorage
-            localStorage.setItem(name2 + 'otherwords', JSON.stringify(mergedWords));
-        
             // 构建URL，将数据传递到 result.html 页面
-            const url = new URL('result.html', window.location.href);
-            url.searchParams.set('name', name2);  // 将姓名添加到URL中
-            url.searchParams.set('userwords', userwords);  // 使用全局变量 userwords
-        
+            const url = new URL('result0302.html', window.location.href);
+            url.searchParams.set('name', name);  // 将姓名参数添加到URL中
+            url.searchParams.set('userwords', userwords.join(','));  // 将用户选择的词汇添加到URL中
+
             // 跳转到结果页面
             window.location.href = url;
         }
-        
 
         function toggleSelection(button) {
-            button.classList.toggle('selected');
+            button.classList.toggle('selected');  // 切换按钮的选中状态
         }
-
-        window.onload = function() {
-            getQueryParams();  // 页面加载时执行getQueryParams函数
-        };
     </script>
 </head>
 <body>
     <div class="container">
-        <h1>提交对 <span id="name"></span> 的了解</h1>
-        <p>如果您是该用户，可将此页面转发给他人来获取他人对您的评价：</p>
-        <p>如果您不是该用户，可选择五到六个您认为描述 他/她 <span id="name2"></span> 的词汇：</p>
-        
+        <h1>Johari Window - 自我描述</h1>
+        <p>请输入您的姓名：<input type="text" id="name" required></p>
+        <p>请选择最能描述自己的5-6个词汇</p>
+
         <!-- 使用表格布局按钮 -->
         <table class="window">
             <tr>
@@ -71,7 +53,7 @@
             </tr>
             <tr>
                 <td><button type="button" onclick="toggleSelection(this)">calm/冷静的</button></td>
-                <td><button type="button" onclick="toggleSelection(this)">caring/贴心的</button></td>
+                <td><button type="button" onclick="toggleSelection(this)">caring/关心他人的，贴心的</button></td>
                 <td><button type="button" onclick="toggleSelection(this)">cheerful/乐观的</button></td>
                 <td><button type="button" onclick="toggleSelection(this)">warm/暖心的</button></td>
                 <td><button type="button" onclick="toggleSelection(this)">complex/个性复杂的</button></td>
@@ -85,7 +67,7 @@
             </tr>
             <tr>
                 <td><button type="button" onclick="toggleSelection(this)">friendly/友善的</button></td>
-                <td><button type="button" onclick="toggleSelection(this)">giving/慷慨的</button></td>
+                <td><button type="button" onclick="toggleSelection(this)">giving/慷慨的，乐于奉献的</button></td>
                 <td><button type="button" onclick="toggleSelection(this)">happy/快乐的</button></td>
                 <td><button type="button" onclick="toggleSelection(this)">helpful/乐于助人的</button></td>
                 <td><button type="button" onclick="toggleSelection(this)">idealistic/理想主义的</button></td>
@@ -108,7 +90,7 @@
                 <td><button type="button" onclick="toggleSelection(this)">able/能干的</button></td>
                 <td><button type="button" onclick="toggleSelection(this)">organised/有条理的</button></td>
                 <td><button type="button" onclick="toggleSelection(this)">patient/耐心的</button></td>
-                <td><button type="button" onclick="toggleSelection(this)">powerful/强大的</button></td>
+                <td><button type="button" onclick="toggleSelection(this)">powerful/强大的、有权势的</button></td>
                 <td><button type="button" onclick="toggleSelection(this)">kind/善良的</button></td>
             </tr>
             <tr>
@@ -121,8 +103,8 @@
             <tr>
                 <td><button type="button" onclick="toggleSelection(this)">bold/鲁莽的</button></td>
                 <td><button type="button" onclick="toggleSelection(this)">brave/勇敢的</button></td>
-                <td><button type="button" onclick="toggleSelection(this)">self-assertive/果敢的，独断的</button></td>
-                <td><button type="button" onclick="toggleSelection(this)">self-conscious/在意别人看法的</button></td>
+                <td><button type="button" onclick="toggleSelection(this)">self-assertive/果敢的，独断专行的</button></td>
+                <td><button type="button" onclick="toggleSelection(this)">self-conscious/在意别人看法的，自我意识过剩的</button></td>
                 <td><button type="button" onclick="toggleSelection(this)">sensible/通情达理的</button></td>
             </tr>
             <tr>
@@ -157,7 +139,7 @@
 
         <br><br> <!-- 添加 2 行空白 -->
 
-        <button onclick="submitForm()">提交并查看结果</button>
+        <button onclick="submitForm()">提交</button>
     </div>
 </body>
 </html>
