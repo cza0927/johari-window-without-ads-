@@ -19,31 +19,40 @@
             }
         }
 
+        // 提交表单
         function submitForm() {
             const name2 = document.getElementById('name').textContent;  // 获取姓名
             const selectedWords = Array.from(document.querySelectorAll('button.selected')).map(button => button.textContent); // 获取当前选中的词汇
             // 如果选择的词汇数量不在 5 到 6 之间，弹出提示并返回
+            const submitterName = document.getElementById('submitterName').value;  // 填写人的姓名
+            if (!submitterName) {
+                alert("请输入您的姓名！");
+                return;
+            }
             if (selectedWords.length < 5 || selectedWords.length > 6) {
                 alert('请选择5到6个词汇！');
                 return;
             }
 
-            // 从 localStorage 获取之前的 otherwords 参数，如果没有，则设置为空数组
+            // 获取被评价对象之前提交的其他词汇
             const existingOtherWords = JSON.parse(localStorage.getItem(name2 + 'otherwords')) || [];
-            // 合并之前的 otherwords 和当前选中的词汇，去重
-            const mergedWords = [...new Set([...existingOtherWords, ...selectedWords])]
-            // 将合并后的 otherwords 存储回 localStorage
-            localStorage.setItem(name2 + 'otherwords', JSON.stringify(mergedWords));
-        
-            // 构建URL，将数据传递到 result.html 页面
+            // 合并并去重
+            const mergedWords = [...new Set([...existingOtherWords, ...selectedWords])];
+            localStorage.setItem( name2 + 'otherwords', JSON.stringify(mergedWords));
+
+            // 获取并更新填写人的信息
+            const submittedData = JSON.parse(localStorage.getItem(name2 + 'submittedData') || '[]');
+            submittedData.push({ submitterName, words: selectedWords });
+            localStorage.setItem(name2 + 'submittedData', JSON.stringify(submittedData));
+
+            // 构建 URL 跳转到 result 页面，并传递被评价对象的信息
             const url = new URL('result.html', window.location.href);
-            url.searchParams.set('name', name2);  // 将姓名添加到URL中
+            url.searchParams.set('name', name2);  // 将被评价对象的姓名添加到 URL 中
             url.searchParams.set('userwords', userwords);  // 使用全局变量 userwords
-        
+
             // 跳转到结果页面
             window.location.href = url;
         }
-        
 
         function toggleSelection(button) {
             button.classList.toggle('selected');
@@ -59,7 +68,12 @@
         <h1>提交对 <span id="name"></span> 的了解</h1>
         <p>如果您是该用户，可将此页面转发给他人来获取他人对您的评价：</p>
         <p>如果您不是该用户，可选择五到六个您认为描述 他/她 <span id="name2"></span> 的词汇：</p>
-        
+        <!-- 输入填写人姓名 -->
+        <p>请输入您的姓名：</p>
+        <input type="text" id="submitterName" placeholder="填写您的姓名" />
+
+        <br><br><br><br> <!-- 添加 2 行空白 -->
+
         <!-- 使用表格布局按钮 -->
         <table class="window">
             <tr>

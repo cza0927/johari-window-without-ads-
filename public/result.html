@@ -15,14 +15,13 @@
             //const otherwords = urlParams.get('otherwords');  // 获取其他人选择的词汇from url
             //const otherwords = JSON.parse(localStorage.getItem('otherwords')) || []; // Retrieve otherwords from localStorage
 
-
             if (userwords && name) {
                 // 只在这里更新一次 #name 的内容，避免重复更新
                 document.getElementById('name').textContent = name;  // 显示用户姓名
                 
                 const userwordList = userwords.split(',').filter(Boolean);  // 将用户选择的词汇分割为列表
                 let otherwordList = JSON.parse(localStorage.getItem(name + 'otherwords')) || [];  // 从localStorage获取otherwords，如果没有则默认为空数组
-                updateJohariWindow(userwordList, otherwordList);  // 更新Johari Window
+                updateJohariWindow(userwordList, otherwordList, name);  // 更新Johari Window
 
                 const userwordsStr = encodeURIComponent(userwordList);
                 //const otherwordsStr = encodeURIComponent(otherwordList);
@@ -33,11 +32,25 @@
 
                 const CreateNewLink = document.getElementById('CreateNewLink');
                 CreateNewLink.href = `index.html`;
+
+                displaySubmittedNames(name);  // 显示填写人的数据
             }
         }
         
+        // 显示提交者和他们提交的词汇
+        function displaySubmittedNames(currentname) {
+            const submittedData = JSON.parse(localStorage.getItem(currentname + 'submittedData')) || []; // 获取与当前name相关的提交数据
+            const namesList = document.getElementById('namesList');
+            submittedData.forEach(entry => {
+                const listItem = document.createElement('li');
+                // 使用 <strong> 标签来加粗显示名字
+                listItem.innerHTML = `<strong>${entry.submitterName}</strong>: ${entry.words.join(", ")}`;
+                namesList.appendChild(listItem);
+            });
+        }
+
         // 显示 Johari Window
-        function updateJohariWindow(userwordList, otherwordsList) {
+        function updateJohariWindow(userwordList, otherwordsList, currentName) {
             const allwords = [
                 "observant/有洞察力的", "accepting/接受能力强的", "adaptable/适应能力强的", "responsive/反应灵敏的", "searching/敏锐的",
                 "calm/冷静的", "caring/关心他人的，贴心的", "cheerful/乐观的", "warm/暖心的", "complex/个性复杂的",
@@ -79,7 +92,7 @@
     <div class="container">
         <h1>Johari Window 结果</h1> <!-- 页面标题 -->
         <p>您好，以下是<span id="name"></span>的Johari Window：</p> <!-- 显示用户的姓名 -->
-
+        
         <!-- 2x2 Johari Window 表格 -->
         <table class="window_result">
             <tr>
@@ -98,6 +111,12 @@
                 <td class="unknown" id="unknown"><h2>Unknown</h2></td>
             </tr>
         </table>
+
+        <!-- 显示填写者和他们提交的词汇 -->
+        <h2>填写者和他们提交的词汇:</h2>
+        <ul id="namesList">
+            <!-- 使用 <strong> 标签来加粗显示填写者的名字 -->
+        </ul>
 
         <!-- 提供跳转链接 -->
         <p>你可以通过以下链接填写你对该用户的了解：</p>
